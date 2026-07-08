@@ -16,6 +16,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // Allows frontend to make requests to this API
 app.use(express.json()); // Parses incoming JSON payloads
 
+// Routes
+app.use('/api/users', require('./routes/userRoutes'));
+
 // Health check route
 app.get('/api/health', (req, res) => {
     res.status(200).json({ message: 'Server is running normally.' });
