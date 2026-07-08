@@ -1,15 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard'; // 1. MAKE SURE THIS IS IMPORTED
 
 function App() {
   return (
     <div className="app-container">
       <Routes>
-        <Route path="/" element={<Login />} /> {/* Default route goes to login for now */}
+        <Route path="/" element={<Dashboard />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<h2>Dashboard (Protected)</h2>} />
+        
+        {/* 2. UPDATE THIS LINE TO USE THE COMPONENT, NOT THE <H2> TAG */}
+        <Route path="/dashboard" element={<Dashboard />} /> 
       </Routes>
     </div>
   );
