@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const Login = () => {
   });
 
   const { email, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -16,12 +18,24 @@ const Login = () => {
     }));
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login Data Ready to Send:', formData);
-    // We will hook this up to the backend later!
-  };
+    
+    try {
+      const response = await axios.post('/api/users/login', {
+        email,
+        password
+      });
 
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      alert(message);
+    }
+  };
   return (
     <div className="form-container">
       <section className="heading">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // <-- Import axios
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,9 @@ const Register = () => {
   });
 
   const { name, email, password, confirmPassword } = formData;
+  
+  // useNavigate allows us to change pages via code
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -18,16 +22,34 @@ const Register = () => {
     }));
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match');
-    } else {
-      console.log('Register Data Ready to Send:', { name, email, password });
-      // We will hook this up to the backend later!
+      return;
+    } 
+
+    try {
+      // 1. Send the POST request to our backend
+      const response = await axios.post('/api/users/register', {
+        name,
+        email,
+        password
+      });
+
+      // 2. If successful, save the user data (including the token) to localStorage
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        
+        // 3. Redirect the user to the dashboard
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      // Extract the error message from our backend
+      const message = error.response?.data?.message || error.message;
+      alert(message);
     }
   };
-
   return (
     <div className="form-container">
       <section className="heading">
