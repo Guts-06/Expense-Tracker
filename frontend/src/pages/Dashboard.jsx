@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import ExpenseForm from '../components/ExpenseForm'; // <-- 1. Import the form
+import ExpenseForm from '../components/ExpenseForm';
+import CategoryForm from '../components/CategoryForm'; // <-- added
 
 const Dashboard = () => {
     const [expenses, setExpenses] = useState([]);
@@ -47,10 +48,13 @@ const Dashboard = () => {
         navigate('/login');
     };
 
-    // 2. Create the callback function to handle new expenses
     const handleExpenseAdded = (newExpense) => {
-        // This takes the current array of expenses, and puts the new one at the very top!
         setExpenses([newExpense, ...expenses]);
+    };
+
+    // added
+    const handleCategoryAdded = (newCategory) => {
+        setCategories([...categories, newCategory]);
     };
 
     return (
@@ -61,8 +65,11 @@ const Dashboard = () => {
             </header>
 
             <div className="dashboard-content">
-                {/* 3. Add the form column here */}
                 <section className="dashboard-column">
+                    <CategoryForm
+                        token={user?.token}
+                        onCategoryAdded={handleCategoryAdded}
+                    />
                     <ExpenseForm
                         categories={categories}
                         token={user?.token}
