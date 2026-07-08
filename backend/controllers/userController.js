@@ -74,5 +74,13 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// @desc    Get user data (Test for protected route)
+// @route   GET /api/users/me
+const getMe = async (req, res) => {
+  // req.user is set by our protect middleware!
+  res.status(200).json(req.user);
+};
 
-module.exports = { registerUser, loginUser };
+// Make sure to export it!
+module.exports = { registerUser, loginUser, getMe };
+// module.exports = { registerUser, loginUser };
