@@ -18,7 +18,7 @@ app.use(express.json()); // Parses incoming JSON payloads
 
 // Routes
 app.use('/api/users', require('./routes/userRoutes'));
-
+app.use('/api/categories', require('./routes/categoryRoutes'));
 // Health check route
 app.get('/api/health', (req, res) => {
     res.status(200).json({ message: 'Server is running normally.' });

@@ -22,3 +22,13 @@ Content-Type: application/json
 ### Get My Profile (Protected)
 GET http://localhost:5000/api/users/me
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNGUxZGE0MWYwNjE1NmJmYzZkZjAzZSIsImlhdCI6MTc4MzUwNDM4NywiZXhwIjoxNzg2MDk2Mzg3fQ.aVYzPfeXtc3tj5u4FQFNsrNHzcVFfrPLNN8nljwvkHs
+
+### Create a Category
+POST http://localhost:5000/api/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNGUxZGE0MWYwNjE1NmJmYzZkZjAzZSIsImlhdCI6MTc4MzUwNDM4NywiZXhwIjoxNzg2MDk2Mzg3fQ.aVYzPfeXtc3tj5u4FQFNsrNHzcVFfrPLNN8nljwvkHs
+Content-Type: application/json
+
+{
+  "name": "Groceries",
+  "type": "expense"
+}
