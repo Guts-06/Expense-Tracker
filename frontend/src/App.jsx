@@ -1,13 +1,14 @@
 import { Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
     <div className="app-container">
       <Routes>
-        {/* We will build these actual components in the next milestones */}
-        <Route path="/" element={<h1>Welcome to Expense Tracker</h1>} />
-        <Route path="/login" element={<h2>Login Page</h2>} />
-        <Route path="/register" element={<h2>Register Page</h2>} />
+        <Route path="/" element={<Login />} /> {/* Default route goes to login for now */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<h2>Dashboard (Protected)</h2>} />
       </Routes>
     </div>

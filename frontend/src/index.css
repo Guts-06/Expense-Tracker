@@ -15,3 +15,68 @@ body {
   display: flex;
   flex-direction: column;
 }
+/* --- Add this to the bottom of index.css --- */
+.form-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.heading h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background: #000;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #333;
+}
+
+.btn-block {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.redirect-text {
+  text-align: center;
+  font-size: 0.9rem;
+}
