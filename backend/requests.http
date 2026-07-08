@@ -32,3 +32,14 @@ Content-Type: application/json
   "name": "Groceries",
   "type": "expense"
 }
+### Create an Expense
+POST http://localhost:5000/api/expenses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNGUxZGE0MWYwNjE1NmJmYzZkZjAzZSIsImlhdCI6MTc4MzUwNDM4NywiZXhwIjoxNzg2MDk2Mzg3fQ.aVYzPfeXtc3tj5u4FQFNsrNHzcVFfrPLNN8nljwvkHs
+Content-Type: application/json
+
+{
+  "category": "6a4e2355ee7cc7d0de9114a2", "createdAt": "2026-07-08T10:15:49.053Z", "updatedAt": "2026-07-08T10:15:49.053Z",
+  "title": "Weekly Groceries",
+  "amount": 120.50,
+  "expenseDate": "2023-10-25"
+}
