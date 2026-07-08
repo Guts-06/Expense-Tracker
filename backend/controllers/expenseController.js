@@ -1,5 +1,5 @@
 const Expense = require('../models/Expense');
-
+const Category = require('../models/Category');
 // @desc    Get user expenses
 // @route   GET /api/expenses
 // @access  Private

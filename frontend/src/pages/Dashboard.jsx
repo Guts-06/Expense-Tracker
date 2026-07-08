@@ -1,101 +1,100 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ExpenseForm from '../components/ExpenseForm'; // <-- 1. Import the form
 
 const Dashboard = () => {
-  const [expenses, setExpenses] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const navigate = useNavigate();
+    const [expenses, setExpenses] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
-  // 1. Get the user from local storage
-  const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
 
-  useEffect(() => {
-    // 2. Protect the route: Kick them out if not logged in
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
-    // 3. Setup the Axios configuration with the JWT Token
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-
-    // 4. Fetch Data function
-    const fetchData = async () => {
-      try {
-        // We can run both requests at the same time using Promise.all!
-        const [expenseRes, categoryRes] = await Promise.all([
-          axios.get('/api/expenses', config),
-          axios.get('/api/categories', config)
-        ]);
-
-        setExpenses(expenseRes.data);
-        setCategories(categoryRes.data);
-      } catch (error) {
-        console.log('Error fetching data:', error);
-        // If the token expired or is invalid, log them out
-        if (error.response && error.response.status === 401) {
-          localStorage.removeItem('user');
-          navigate('/login');
+    useEffect(() => {
+        if (!user) {
+            navigate('/login');
+            return;
         }
-      }
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        };
+
+        const fetchData = async () => {
+            try {
+                const [expenseRes, categoryRes] = await Promise.all([
+                    axios.get('/api/expenses', config),
+                    axios.get('/api/categories', config)
+                ]);
+                console.log("MY EXPENSES:", expenseRes.data);
+                setExpenses(expenseRes.data);
+                setCategories(categoryRes.data);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    localStorage.removeItem('user');
+                    navigate('/login');
+                }
+            }
+        };
+
+        fetchData();
+    }, [user, navigate]);
+
+    const onLogout = () => {
+        localStorage.removeItem('user');
+        navigate('/login');
     };
 
-    fetchData();
-  }, [user, navigate]);
+    // 2. Create the callback function to handle new expenses
+    const handleExpenseAdded = (newExpense) => {
+        // This takes the current array of expenses, and puts the new one at the very top!
+        setExpenses([newExpense, ...expenses]);
+    };
 
-  const onLogout = () => {
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
+    return (
+        <div className="dashboard-container">
+            <header className="dashboard-header">
+                <h1>Welcome, {user?.name}</h1>
+                <button className="btn-logout" onClick={onLogout}>Logout</button>
+            </header>
 
-  return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>Welcome, {user?.name}</h1>
-        <button className="btn-logout" onClick={onLogout}>Logout</button>
-      </header>
+            <div className="dashboard-content">
+                {/* 3. Add the form column here */}
+                <section className="dashboard-column">
+                    <ExpenseForm
+                        categories={categories}
+                        token={user?.token}
+                        onExpenseAdded={handleExpenseAdded}
+                    />
+                </section>
 
-      <div className="dashboard-content">
-        <section className="dashboard-column">
-          <h2>Your Expenses</h2>
-          {expenses.length > 0 ? (
-            <ul className="expense-list">
-              {expenses.map((expense) => (
-                <li key={expense._id} className="expense-item">
-                  <div className="expense-details">
-                    <strong>{expense.title}</strong>
-                    <span className="expense-category">
-                      {/* Because we used .populate() in our backend, category is an object! */}
-                      {expense.category?.name || 'Uncategorized'}
-                    </span>
-                  </div>
-                  <div className="expense-amount">
-                    ${expense.amount.toFixed(2)}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>You have not added any expenses yet.</p>
-          )}
-        </section>
-
-        <section className="dashboard-column">
-          <h2>Categories Loaded</h2>
-          <ul>
-            {categories.map((cat) => (
-              <li key={cat._id}>{cat.name} ({cat.type})</li>
-            ))}
-          </ul>
-        </section>
-      </div>
-    </div>
-  );
+                <section className="dashboard-column" style={{ flex: 2 }}>
+                    <h2>Your Expenses</h2>
+                    {expenses.length > 0 ? (
+                        <ul className="expense-list">
+                            {expenses.map((expense) => (
+                                <li key={expense._id} className="expense-item">
+                                    <div className="expense-details">
+                                        <strong>{expense.title}</strong>
+                                        <span className="expense-category">
+                                            {expense.category?.name || 'Uncategorized'}
+                                        </span>
+                                    </div>
+                                    <div className="expense-amount">
+                                        ${expense.amount.toFixed(2)}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>You have not added any expenses yet.</p>
+                    )}
+                </section>
+            </div>
+        </div>
+    );
 };
 
 export default Dashboard;

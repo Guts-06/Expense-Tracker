@@ -1,13 +1,27 @@
+/* --- Global & Variables --- */
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-color: #f3f4f6;
+  --card-bg: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --danger: #ef4444;
+  --success: #10b981;
+  --border: #e5e7eb;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
 body {
-  background-color: #f4f7f6;
-  color: #333;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.5;
 }
 
 .app-container {
@@ -15,15 +29,17 @@ body {
   display: flex;
   flex-direction: column;
 }
-/* --- Add this to the bottom of index.css --- */
+
+/* --- Forms (Login, Register, Add Expense) --- */
 .form-container {
   width: 100%;
-  max-width: 450px;
+  max-width: 400px;
   margin: 40px auto;
   padding: 30px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
 }
 
 .heading {
@@ -32,60 +48,60 @@ body {
 }
 
 .heading h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
 }
 
 .form-group {
   margin-bottom: 15px;
 }
 
-.form-group input {
+.form-group input,
+.form-select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #e6e6e6;
-  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   font-size: 1rem;
+  background-color: #f9fafb;
+  transition: border-color 0.2s;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-select:focus {
   outline: none;
-  border-color: #333;
+  border-color: var(--primary);
+  background-color: #fff;
 }
 
 .btn {
   padding: 12px 20px;
-  border: 1px solid #000;
-  border-radius: 5px;
-  background: #000;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
   color: #fff;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s;
 }
 
 .btn:hover {
-  background: #333;
+  background: var(--primary-hover);
 }
 
 .btn-block {
   width: 100%;
-  margin-bottom: 15px;
+  margin-top: 10px;
 }
 
-.redirect-text {
-  text-align: center;
-  font-size: 0.9rem;
-}
-/* --- Dashboard Styles --- */
+/* --- Dashboard Layout --- */
 .dashboard-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px 20px;
 }
 
 .dashboard-header {
@@ -93,57 +109,109 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #e6e6e6;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .btn-logout {
-  padding: 8px 15px;
-  background: #ff4757;
+  padding: 8px 16px;
+  background: var(--danger);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-logout:hover {
+  opacity: 0.9;
 }
 
 .dashboard-content {
   display: flex;
+  flex-direction: row;
   gap: 30px;
+  align-items: flex-start;
+}
+
+/* Make it stack on smaller screens */
+@media (max-width: 768px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
 }
 
 .dashboard-column {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
 }
 
+.dashboard-column h2 {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: var(--text-main);
+}
+
+/* --- Expense List --- */
 .expense-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .expense-item {
   display: flex;
   justify-content: space-between;
-  padding: 15px 0;
-  border-bottom: 1px solid #f1f2f6;
+  align-items: center;
+  padding: 16px;
+  background-color: #f9fafb;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: transform 0.1s;
+}
+
+.expense-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .expense-details {
   display: flex;
   flex-direction: column;
+  max-width: 70%;
+  /* Prevents text from pushing the price off screen */
+}
+
+.expense-details strong {
+  font-size: 1.1rem;
+  color: var(--text-main);
+  word-wrap: break-word;
+  /* FIX FOR LONG EXPENSE NAMES */
 }
 
 .expense-category {
   font-size: 0.85rem;
-  color: #747d8c;
-  margin-top: 5px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .expense-amount {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #2ed573;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--success);
+  white-space: nowrap;
+  /* Keeps the price on one line */
 }
